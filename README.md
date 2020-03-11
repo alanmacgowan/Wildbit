@@ -2,10 +2,10 @@
 
 For this solution I consired 2 possible alternatives, using an Event Bus to publish and subscribe messages (It could be RabbitMQ or Kafka for example).
 
-1. API's call MessageRouter class directly and the router publishes to a Queue to which the mail sender component is subscribed.
+1. API's (email and batch) call the MessageRouter class directly, and after the MessageRouter processes the email it publishes a message to a Queue to which the mail sender component is subscribed.
 This way the availability can be achieved by implementing a HA cluster for the Event Bus and scalability and performance by adding more instances of the mailer component.
 
-2. API's publish a message to a Queue and a MessageRoutingService that is subscribed to that queue.
+2. API's (email and batch) publish a message to a Queue and a MessageRoutingService that is subscribed to that queue, picks the message and processes it and calls the mail sender component.
 This way the availability can be achieved by implementing a HA cluster for the Event Bus and scalability and performance by adding more instances of the RoutingService.
 
 
